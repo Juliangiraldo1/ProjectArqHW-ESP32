@@ -83,7 +83,7 @@ while True:
             report = data['weather']
 
             print('')
-            print('**OpenWeather**')
+            print('**Respuesta API OpenWeather**')
             print('Ciudad:{}' .format(CITY_NAME))
             print('Temperatura:{} oC' .format(temperature))
             print('Humedad:{} %' .format(humidity))
