@@ -24,7 +24,7 @@ API_KEY = "eeedf04d6a058369c4bed830801d77d0"
 CITY_NAME = "medellin"
 URL= BASE_URL + "q=" + CITY_NAME + "&appid=" + API_KEY
 
-UPDATE_INTERVALE_ms= 60000
+UPDATE_INTERVALE_ms= 30000
 last_update = time.ticks_ms()
 
 
@@ -47,6 +47,31 @@ while True:
             # 273.15 se reta para obtener la temp en Celcius
             # El valor original de temp es en Kelvin
             temperature = main['temp'] - 273.15
+
+            if temperature > 0:
+                #-----------------------------------------------------
+                #Configuramos datos para servomotor
+                # Configura el pin GPIO donde está conectado el servo
+                pin_servo = machine.Pin(33)
+                servo = machine.PWM(pin_servo)
+
+                # Configura los límites del pulso del servo (ajusta según tu servo)
+                servo.freq(50)
+                servo.duty_ns(500000)  # 0 grados
+
+                # Repite el movimiento del servo 10 veces
+                for _ in range(4):
+                    # Mueve el servo a 90 grados
+                    servo.duty_ns(1500000)  # 90 grados
+                    time.sleep(5.0)
+
+                    # Mueve el servo a 0 grados
+                    servo.duty_ns(500000)  # 0 grados
+                    time.sleep(0.5)
+
+                # Detiene el PWM y libera el pin
+                servo.deinit()
+                #---------------------------------------------------------
 
             #obtenemos porcentaje de humedad
             humidity = main['humidity']
