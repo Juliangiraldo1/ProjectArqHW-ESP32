@@ -11,7 +11,7 @@ sta= network.WLAN(network.STA_IF)
 if not sta.isconnected():
     print('conectando al wifi...')
     sta.active(True)
-    sta.connect('wifiGratis', 'Julian1704')
+    sta.connect('Wifi Gratis', '43645172')
     while not sta.isconnected():
         pass
 print('network config:', sta.ifconfig())
