@@ -32,6 +32,25 @@ last_update = time.ticks_ms()
 # Main
 while True:
     if time.ticks_ms() - last_update >= UPDATE_INTERVALE_ms:
+        """-------------------------- datos de sensor de proximidad----------------------------------- """
+        # Configura el pin del sensor de proximidad
+        sensor_pin = machine.Pin(25, machine.Pin.IN)  # como es de entrada por eso lleva IN
+        # valores que arroja el sensor: Low == 0 activa sensor en acso contrario de High == 1.
+        # print("Valor INICIAL Del sensor = ", sensor_pin.value())
+        for _ in range(4):
+            if sensor_pin.value() == 0:
+                print("¡Mascota detectada!")
+                print(sensor_pin.value())
+                # time.sleep(5)  # espera  segundos
+            else:
+                print("¡ No hay !")
+                print(sensor_pin.value())
+                #time.sleep(5)  # espera  segundos
+            print("¡ESPERARA 5 SEGUNDOS para ejecutarse de nuevo!")
+            time.sleep(5)  # espera  5 segundos
+        """------------------------------------------------------------- """
+        # print("Desconectarse")
+        time.sleep(5)  # Espera segundos
         # se envia peticion al api y se almacena en response
         response = urequests.get(URL)
         if response.status_code == 200:
