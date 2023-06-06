@@ -4,7 +4,6 @@ import network  # manejo del wifi
 import urequests  # consumo get
 import ujson as json
 import time
-
 """---------------------------------------------------"""
 # Configuracion ESP32 wifi
 sta = network.WLAN(network.STA_IF)
@@ -26,7 +25,23 @@ URL = BASE_URL + "q=" + CITY_NAME + "&appid=" + API_KEY
 
 UPDATE_INTERVALE_ms = 30000
 last_update = time.ticks_ms()
+# cofigurar el bot de TELEGRAM
+# bot = telebot.Telebot("6173394954:AAFN9HOLGQwBqltNr3Z3L_QiXgoywYqRSt4")
+def send_telegram_message(token, chat_id, message):
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    headers = {"Content-Type": "application/json"}
+    payload = {
+        "chat_id": chat_id,
+        "text": message
+    }
+    response = urequests.post(url, data=json.dumps(payload), headers=headers)
+    response.close()
 
+# Configura el token y el chat ID
+token = "6173394954:AAFN9HOLGQwBqltNr3Z3L_QiXgoywYqRSt4"
+chat_id = "-962636275"
+
+# Envía un mensaje de prueba
 
 # **************************************
 # Main
@@ -42,14 +57,15 @@ while True:
                 print("¡Mascota detectada!")
                 print(sensor_pin.value())
                 # time.sleep(5)  # espera  segundos
+                send_telegram_message(token, chat_id, "¡Hola desde MicroPython en ESP32!")
             else:
                 print("¡ No hay !")
                 print(sensor_pin.value())
-                #time.sleep(5)  # espera  segundos
+                # time.sleep(5)  # espera  segundos
             print("¡ESPERARA 5 SEGUNDOS para ejecutarse de nuevo!")
             time.sleep(5)  # espera  5 segundos
         """------------------------------------------------------------- """
-        # print("Desconectarse")
+        print("Desconectarse")
         time.sleep(5)  # Espera segundos
         # se envia peticion al api y se almacena en response
         response = urequests.get(URL)
