@@ -57,7 +57,7 @@ while True:
                 print("¡Mascota detectada!")
                 print(sensor_pin.value())
                 # time.sleep(5)  # espera  segundos
-                send_telegram_message(token, chat_id, "¡Hola desde MicroPython en ESP32!")
+                send_telegram_message(token, chat_id, "¡Hola, se acerco la mascota!")
             else:
                 print("¡ No hay !")
                 print(sensor_pin.value())
@@ -93,7 +93,7 @@ while True:
                 servo.duty_ns(500000)  # 0 grados
 
                 # Repite el movimiento del servo 10 veces
-                for _ in range(4):
+                for _ in range(1):
                     # Mueve el servo a 90 grados
                     servo.duty_ns(1500000)  # 90 grados
                     time.sleep(5.0)
@@ -101,7 +101,7 @@ while True:
                     # Mueve el servo a 0 grados
                     servo.duty_ns(500000)  # 0 grados
                     time.sleep(0.5)
-
+                    send_telegram_message(token, chat_id, "¡Hola, se alimento la mascota!")
                 # Detiene el PWM y libera el pin
                 servo.deinit()
                 # ---------------------------------------------------------
