@@ -26,7 +26,6 @@ URL = BASE_URL + "q=" + CITY_NAME + "&appid=" + API_KEY
 UPDATE_INTERVALE_ms = 30000
 last_update = time.ticks_ms()
 # cofigurar el bot de TELEGRAM
-# bot = telebot.Telebot("6173394954:AAFN9HOLGQwBqltNr3Z3L_QiXgoywYqRSt4")
 def send_telegram_message(token, chat_id, message):
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     headers = {"Content-Type": "application/json"}
@@ -38,16 +37,19 @@ def send_telegram_message(token, chat_id, message):
     response.close()
 
 # Configura el token y el chat ID
+""" para optener este chat id tienes primero que agregar el bot que creaste a un grupo
+    despues ingresar a este link https://api.telegram.org/bot<TU_TOKEN>/getUpdates
+    donde dice "<TU_TOKEN>" hay va el token de arriba es decir
+    https://api.telegram.org/bot6173394954:AAFN9HOLGQwBqltNr3Z3L_QiXgoywYqRSt4/getUpdates
+    aparecera un Json y hay aparece la id de abajo "id":-962636275"""
+
 token = "6173394954:AAFN9HOLGQwBqltNr3Z3L_QiXgoywYqRSt4"
 chat_id = "-962636275"
-
-# Envía un mensaje de prueba
-
 # **************************************
 # Main
 while True:
     if time.ticks_ms() - last_update >= UPDATE_INTERVALE_ms:
-        """-------------------------- datos de sensor de proximidad----------------------------------- """
+        """----- datos de sensor de proximidad---- """
         # Configura el pin del sensor de proximidad
         sensor_pin = machine.Pin(25, machine.Pin.IN)  # como es de entrada por eso lleva IN
         # valores que arroja el sensor: Low == 0 activa sensor en acso contrario de High == 1.
@@ -59,13 +61,13 @@ while True:
                 # time.sleep(5)  # espera  segundos
                 send_telegram_message(token, chat_id, "¡Hola, se acerco la mascota!")
             else:
-                print("¡ No hay !")
+                print("¡ No hay mascota!")
                 print(sensor_pin.value())
                 # time.sleep(5)  # espera  segundos
-            print("¡ESPERARA 5 SEGUNDOS para ejecutarse de nuevo!")
+            #print("¡ESPERARA 5 SEGUNDOS para ejecutarse de nuevo!")
             time.sleep(5)  # espera  5 segundos
         """------------------------------------------------------------- """
-        print("Desconectarse")
+        # print("Desconectarse")
         time.sleep(5)  # Espera segundos
         # se envia peticion al api y se almacena en response
         response = urequests.get(URL)
